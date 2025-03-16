@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    url: ${APP_DATABASE_URL}
+    username: ${APP_DATABASE_USERNAME}
+    password: ${APP_DATABASE_PASSWORD}
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_CLIENT_SECRET}
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+
+app:
+  auth:
+    jwt-secret: ${APP_AUTH_JWT_SECRET:a7bcd56f890123e45678901234567890abcdef1234567890abcdef1234567890}
+    jwt-expiration-ms: ${APP_AUTH_JWT_EXPIRATION_MS:86400000}
+    tokenSecret: ${JWT_SECRET:default-jwt-secret-key-must-be-changed-in-production}
+    tokenExpirationMsec: 864000000 # 10 days
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect 
